@@ -109,6 +109,7 @@
             transition: all 0.3s ease;
             overflow-y: auto;
             flex-grow: 1;
+            min-height: 100vh; /* Fixes issue with half screen */
         }
 
         main section {
@@ -194,6 +195,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
+            width: 100%;
         }
 
         .grid-container .job {
@@ -321,7 +323,9 @@
             main {
                 margin-left: 0;
                 padding: 20px;
+                width: 100%; /* Ensure full width on mobile */
                 padding-bottom: 80px; /* Adjust to ensure content is not hidden behind bottom nav */
+                min-height: calc(100vh - 80px); /* Ensure content fills the screen */
             }
 
             .grid-container {
@@ -369,15 +373,15 @@
         </li>
         <li><a href="#experience" onclick="showSection('experience')">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M8 2.5a2 2 0 0 0-2 2v.5H2v-2a1 1 0 0 1 1-1h2.5v-.5A2.5 2.5 0 0 1 8 0h.5A2.5 2.5 0 0 1 11 2.5V4H14a1 1 0 0 1 1 1v2h-4v-.5a2 2 0 0 0-2-2zm.5 1V2.5A1.5 1.5 0 0 0 7 1H6a1.5 1.5 0 0 0-1.5 1.5V4h4zm-.5 3h5.5a.5.5 0 0 1 .5.5V12h-2v.5a1.5 1.5 0 0 1-3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12H1V9.5a.5.5 0 0 1 .5-.5H7zm-5.5 0h5.5v1H2v-1zM8.5 7H1V5.5a.5.5 0 0 1 .5-.5H8v1H2v1h6.5zm5 2h-2v.5a.5.5 0 0 0 1 0V9h1v.5a.5.5 0 0 0 1 0V9zm1 3v-.5a1.5 1.5 0 1 1 3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12H1v-.5a1.5 1.5 0 0 1 3 0V12h2v-.5a1.5 1.5 1 1 1 3 0V12h2v-.5a1.5 1.5 0 0 1 3 0V12h2v-.5z"/>
+                <path d="M8 2.5a2 2 0 0 0-2 2v.5H2v-2a1 1 0 0 1 1-1h2.5v-.5A2.5 2.5 0 0 1 8 0h.5A2.5 2.5 0 0 1 11 2.5V4H14a1 1 0 0 1 1 1v2h-4v-.5a2 2 0 0 0-2-2zm.5 1V2.5A1.5 1.5 0 0 0 7 1H6a1.5 1.5 0 0 0-1.5 1.5V4h4zm-.5 3h5.5a.5.5 0 0 1 .5.5V12h-2v.5a1.5 1.5 0 0 1-3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12H1V9.5a.5.5 0 0 1 .5-.5H7zm-5.5 0h5.5v1H2v-1zM8.5 7H1V5.5a.5.5 0 0 1 .5-.5H8v1H2v1h6.5zm5 2h-2v.5a.5.5 0 0 0 1 0V9h1v.5a.5.5 0 0 0 1 0V9zm1 3v-.5a1.5 1.5 0 1 1 3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12H1v-.5a1.5 1.5 0 0 1 3 0V12h2v-.5a1.5 1.5 0 1 1 3 0V12h2v-.5a1.5 1.5 0 0 1 3 0V12h2v-.5z"/>
             </svg>
             Проекты</a>
         </li>
         <li><a href="#contacts" onclick="showSection('contacts')">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M8 5.5A2.5 2.5 0 1 0 8 0a2.5 2.5 0 0 0 0 5zm4.485 0a4.5 4.5 0 0 1-4.97 4.97 3 3 0 0 0-1.028.303A5 5 0 0 1 3 12.5v1a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1v-1a5 5 0 0 1 2.97-4.728 3 3 0 0 0-1.028-.303 4.5 4.5 1 1 1 4.97-4.97 3 3 0 0 0 1.028-.303A5 5 0 0 1 13 3.5v1a1 1 0 0 1-1 1H9.5a1.5 1.5 0 1 1 0-3H11a1 1 0 0 1 1 1v1zM1 13h2v.5a1 1 0 0 1-2 0V13zm12-.5a.5.5 0 1 0 0 1h1.5a.5.5 0 0 0 0-1h-1.5z"/>
-            </svg>
-            Контакты</a>
+        </svg>
+        Контакты</a>
         </li>
         <li><a href="#important" onclick="showSection('important')">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -469,8 +473,8 @@
             <div class="job">
                 <h3>🤖 Meowrax Спамит</h3>
                 <p>- Должность: Разработчик</p>
-                <p>- Работаю с 2024 года</p>
-                <p>- Заказной проект: ❌</p>
+                <p>- Работаю с 2024 года</п>
+                <п>- Заказной проект: ❌</п>
                 <div class="button-group job-buttons">
                     <a href="https://t.me/meowraxSpambot">Telegram</a>
                 </div>
