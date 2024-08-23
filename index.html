@@ -109,7 +109,7 @@
             transition: all 0.3s ease;
             overflow-y: auto;
             flex-grow: 1;
-            min-height: 100vh; /* Fixes issue with half screen */
+            min-height: 100vh;
         }
 
         main section {
@@ -176,7 +176,7 @@
             overflow: hidden;
             border-right: 3px solid #00e676;
             padding-right: 0.1em;
-            width: 22ch; 
+            width: 22ch;
             animation: typing 5s steps(23) 1s infinite, blink 1s step-end infinite;
         }
 
@@ -323,9 +323,9 @@
             main {
                 margin-left: 0;
                 padding: 20px;
-                width: 100%; /* Ensure full width on mobile */
-                padding-bottom: 80px; /* Adjust to ensure content is not hidden behind bottom nav */
-                min-height: calc(100vh - 80px); /* Ensure content fills the screen */
+                width: 100%;
+                padding-bottom: 80px;
+                min-height: calc(100vh - 80px);
             }
 
             .grid-container {
@@ -393,7 +393,6 @@
     </ul>
 </nav>
 
-<!-- Bottom navigation for mobile devices -->
 <div class="bottom-nav">
     <a href="#info" onclick="showSection('info')">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -416,6 +415,7 @@
     <a href="#important" onclick="showSection('important')">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
             <path d="M8 0a8 8 0 0 0-8 8v1.5A2.5 2.5 0 0 0 2.5 12H6v-1H2.5A1.5 1.5 0 0 1 1 9.5V8a7 7 0 0 1 14 0v1.5a1.5 1.5 0 0 1-1.5 1.5H10v1h3.5a2.5 2.5 0 0 0 2.5-2.5V8a8 8 0 0 0-8-8z"/>
+                <path d="M7 11v1h2v-1H7zm.5 2a.5.5 0 0 0 0 1H9a.5.5 0 0 0 0-1H7.5z"/>
         </svg>
         Важное
     </a>
@@ -473,8 +473,8 @@
             <div class="job">
                 <h3>🤖 Meowrax Спамит</h3>
                 <p>- Должность: Разработчик</p>
-                <p>- Работаю с 2024 года</п>
-                <п>- Заказной проект: ❌</п>
+                <p>- Работаю с 2024 года</p>
+                <p>- Заказной проект: ❌</p>
                 <div class="button-group job-buttons">
                     <a href="https://t.me/meowraxSpambot">Telegram</a>
                 </div>
