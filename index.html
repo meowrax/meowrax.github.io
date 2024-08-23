@@ -276,30 +276,60 @@
             font-size: 1.2em;
         }
 
-        /* Media queries for responsiveness */
-        @media (max-width: 768px) {
+        /* Bottom navigation for mobile devices */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #181818;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .bottom-nav a {
+            color: #b0bec5;
+            text-align: center;
+            font-size: 0.9em;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bottom-nav a svg {
+            margin-bottom: 5px;
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        @media screen and (max-width: 768px) {
             nav {
-                width: 200px;
+                display: none;
+            }
+
+            .bottom-nav {
+                display: flex;
             }
 
             main {
-                margin-left: 220px;
-                width: calc(100% - 220px);
+                margin-left: 0;
+                padding: 20px;
             }
 
             .grid-container {
                 grid-template-columns: 1fr;
             }
-        }
 
-        @media (max-width: 480px) {
-            nav {
-                width: 150px;
-            }
-
-            main {
-                margin-left: 170px;
-                width: calc(100% - 170px);
+            .background {
+                background-position: center top;
+                background-size: cover;
             }
 
             nav h1 {
@@ -358,12 +388,40 @@
     </ul>
 </nav>
 
+<!-- Bottom navigation for mobile devices -->
+<div class="bottom-nav">
+    <a href="#info" onclick="showSection('info')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm4.285-2A4.285 4.285 0 1 1 8 1.715 4.285 4.285 0 0 1 12.285 6zM8 11a5 5 0 1 1-4.958 4.738 1 1 0 0 1-.94-1.327A7 7 0 1 0 15.9 8.9a1 1 0 0 1-1.327-.94A5.003 5.003 0 0 1 8 11z"/>
+        </svg>
+        Информация
+    </a>
+    <a href="#experience" onclick="showSection('experience')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 2.5a2 2 0 0 0-2 2v.5H2v-2a1 1 0 0 1 1-1h2.5v-.5A2.5 2.5 0 0 1 8 0h.5A2.5 2.5 0 0 1 11 2.5V4H14a1 1 0 0 1 1 1v2h-4v-.5a2 2 0 0 0-2-2zm.5 1V2.5A1.5 1.5 0 0 0 7 1H6a1.5 1.5 0 0 0-1.5 1.5V4h4zm-.5 3h5.5a.5.5 0 0 1 .5.5V12h-2v.5a1.5 1.5 0 0 1-3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12H1V9.5a.5.5 0 0 1 .5-.5H7zm-5.5 0h5.5v1H2v-1zM8.5 7H1V5.5a.5.5 0 0 1 .5-.5H8v1H2v1h6.5zm5 2h-2v.5a.5.5 0 0 0 1 0V9h1v.5a.5.5 0 0 0 1 0V9zm1 3v-.5a1.5 1.5 0 1 1 3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12h-2v.5a1.5 1.5 0 0 1-3 0V12H1v-.5a1.5 1.5 0 0 1 3 0V12h2v-.5a1.5 1.5 0 1 1 3 0V12h2v-.5a1.5 1.5 0 0 1 3 0V12h2v-.5z"/>
+        </svg>
+        Проекты
+    </a>
+    <a href="#contacts" onclick="showSection('contacts')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 5.5A2.5 2.5 0 1 0 8 0a2.5 2.5 0 0 0 0 5zm4.485 0a4.5 4.5 0 0 1-4.97 4.97 3 3 0 0 0-1.028.303A5 5 0 0 1 3 12.5v1a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1v-1a5 5 0 0 1 2.97-4.728 3 3 0 0 0-1.028-.303 4.5 4.5 0 1 1 4.97-4.97 3 3 0 0 0 1.028-.303A5 5 0 0 1 13 3.5v1a1 1 0 0 1-1 1H9.5a1.5 1.5 0 1 1 0-3H11a1 1 0 0 1 1 1v1zM1 13h2v.5a1 1 0 0 1-2 0V13zm12-.5a.5.5 0 1 0 0 1h1.5a.5.5 0 0 0 0-1h-1.5z"/>
+        </svg>
+        Контакты
+    </a>
+    <a href="#important" onclick="showSection('important')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 0 0-8 8v1.5A2.5 2.5 0 0 0 2.5 12H6v-1H2.5A1.5 1.5 0 0 1 1 9.5V8a7 7 0 0 1 14 0v1.5a1.5 1.5 0 0 1-1.5 1.5H10v1h3.5a2.5 2.5 0 0 0 2.5-2.5V8a8 8 0 0 0-8-8z"/>
+        </svg>
+        Важное
+    </a>
+</div>
+
 <main>
     <section id="info" class="visible">
         <div class="profile">
             <img src="photo_2024-07-11_04-42-14.jpg" alt="Profile Picture">
             <h3>meowrax</h3>
-            <p class="typing-animation">ЕБУ King Панель </p>
+            <p class="typing-animation">ЕБУ King Панель</p>
             <p id="current-time"></p>
         </div>
     </section>
@@ -383,7 +441,7 @@
             <div class="job">
                 <h3>📜 Канал с проектами</h3>
                 <p>- Должность: Разработчик</p>
-                <p> Работаю с 2024 года</p>
+                <p>- Работаю с 2024 года</p>
                 <p>- Заказной проект: ❌</p>
                 <div class="button-group job-buttons">
                     <a href="https://t.me/e4vTG">Telegram</a>
