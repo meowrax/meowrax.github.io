@@ -3,203 +3,827 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meowrax - Enhanced Dark Mode</title>
+    <title>Xio | Cyber Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body{font-family:'Roboto',sans-serif;background-color:#0d0d0d;color:#f5f5f5;margin:0;padding:0;display:flex;flex-direction:column;min-height:100vh;background:linear-gradient(135deg,#1c1c1c 25%,#0d0d0d 100%);cursor:url('https://i.imgur.com/Vz6m9S9.png'),auto;overflow-x:hidden}
-        nav{background-color:#181818;width:250px;height:100vh;padding:20px;position:fixed;top:0;left:0;display:flex;flex-direction:column;align-items:center;box-shadow:0 0 25px rgba(0,0,0,0.7);z-index:1000}
-        nav h1{background:linear-gradient(to right,#00e676,#0077ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8em;margin-bottom:30px;text-transform:uppercase;letter-spacing:2px;animation:colorChange 3s infinite alternate}
-        @keyframes colorChange{from{filter:brightness(0.8)}to{filter:brightness(1.5)}}
-        nav ul{list-style:none;padding:0;width:100%}
-        nav ul li{margin:15px 0;width:100%}
-        nav ul li a{text-decoration:none;color:#b0bec5;font-size:1.2em;padding:10px 20px;display:flex;align-items:center;transition:background-color 0.3s,color 0.3s;border-radius:10px;backdrop-filter:blur(10px)}
-        nav ul li a:hover{background-color:rgba(0,230,118,0.1);color:#00e676}
-        nav ul li a.active{background-color:#00e676;color:#000;box-shadow:0 0 15px #00e676}
-        nav ul li a svg{margin-right:15px;width:24px;height:24px;fill:currentColor;transition:transform 0.3s}
-        nav ul li a:hover svg{transform:scale(1.2)}
-        main{margin-left:270px;padding:40px;width:calc(100% - 270px);background-color:#121212;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;color:#e0e0e0;transition:all 0.3s ease;overflow-y:auto;flex-grow:1;min-height:100vh}
-        main section{background-color:#1c1c1c;padding:40px;border-radius:20px;box-shadow:0 0 20px rgba(0,0,0,0.5);margin-bottom:30px;width:100%;max-width:800px;display:none;text-align:center}
-        main section.visible{display:block}
-        main h2{color:#00e676;margin-top:0;font-size:2em;text-transform:uppercase;letter-spacing:1px}
-        main p{font-size:1.2em;line-height:1.6}
-        .profile{display:flex;align-items:center;justify-content:center;flex-direction:column}
-        .profile img{border-radius:50%;width:150px;height:150px;margin-bottom:20px;box-shadow:0 0 40px rgba(0,230,118,0.5);transition:transform 0.3s;object-fit:cover}
-        .profile h3{background:linear-gradient(to right,#00e676,#0077ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:colorChange 3s infinite alternate}
-        .profile p{color:#00e676;font-size:1.2em}
-        .profile .typing-animation{font-size:1.2em;color:#00e676;white-space:nowrap;overflow:hidden;border-right:3px solid #00e676;padding-right:0.1em;width:25ch;animation:typing 5s steps(23) 1s infinite,blink 1s step-end infinite}
-        @keyframes typing{0%{width:0}50%{width:25ch}60%{width:25ch}100%{width:0}}
-        @keyframes blink{50%{border-color:transparent}}
-        .grid-container{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;width:100%}
-        .grid-container .job{background-color:#1c1c1c;padding:20px;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,0.5);text-align:center}
-        .button-group a{background-color:#00e676;color:#000;padding:15px 30px;border-radius:30px;text-decoration:none;margin:10px;display:inline-block;transition:background-color 0.3s,transform 0.3s;box-shadow:0 5px 15px rgba(0,230,118,0.4)}
-        .button-group a:hover{background-color:#76ff03;transform:translateY(-3px)}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-        .background{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:-1}
-        .background .stars{position:absolute;top:0;left:50%;width:200%;height:200%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,255,255,0.2) 10%,transparent 70%);opacity:0.5;animation:moveStars 60s linear infinite}
-        @keyframes moveStars{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-200%)}}
-        footer{background-color:#181818;color:#00e676;text-align:center;padding:15px 0;position:fixed;width:100%;bottom:0;left:0;box-shadow:0 -4px 10px rgba(0,0,0,0.7);z-index:999}
-        footer p{margin:0;font-size:1.2em}
-        .bottom-nav{display:none}
-        @media screen and (max-width:768px){
-            nav{display:none}
-            .bottom-nav{display:flex;position:fixed;bottom:0;left:0;width:100%;background-color:#181818;box-shadow:0 -4px 10px rgba(0,0,0,0.7);justify-content:space-around;padding:10px 0;z-index:1000}
-            .bottom-nav a{color:#b0bec5;text-align:center;font-size:0.9em;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center}
-            .bottom-nav a svg{margin-bottom:5px;width:24px;height:24px;fill:currentColor}
-            main{margin-left:0;padding:20px;width:100%;padding-bottom:80px;min-height:calc(100vh - 80px)}
-            .grid-container{grid-template-columns:1fr}
-            .background{background-position:center top;background-size:cover}
-            nav h1{font-size:1.5em}
-            .grid-container .job{padding:15px}
-            .profile img{width:120px;height:120px}
-            .button-group a{padding:10px 20px}
+        :root {
+            --primary: #00ff88;
+            --secondary: #00a1ff;
+            --accent: #ff0000; /* Изменено на красный */
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --bg-card: #111111;
+            --bg-nav: #0d0d0d;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+            --glow: 0 0 15px rgba(0, 255, 136, 0.5);
+            --glow-accent: 0 0 20px rgba(255, 0, 0, 0.7); /* Обновлено для красного */
         }
-        #message-container{text-align:center;margin-top:15px;position:relative;max-width:300px;margin:15px auto;background-color:#1c1c1c;padding:10px;border-radius:10px;box-shadow:0 0 15px rgba(0,0,0,0.7)}
-        #message{font-size:1.2em;color:#00e676}
-        #progress-bar{position:absolute;bottom:-5px;left:0;height:3px;background-color:#00e676;width:0;border-radius:3px}
+        
+        @font-face {
+            font-family: 'Cyber';
+            src: url('https://fonts.cdnfonts.com/css/cyberpunk') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cyber', 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(0, 161, 255, 0.1) 0%, transparent 30%),
+                linear-gradient(to bottom, var(--bg-darker), var(--bg-dark));
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Cyberpunk scanlines effect */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0%,
+                    rgba(0, 255, 136, 0.05) 0.5%,
+                    transparent 1%
+                );
+            pointer-events: none;
+            z-index: 1000;
+            mix-blend-mode: overlay;
+            animation: scanlines 1s steps(4) infinite;
+        }
+        
+        @keyframes scanlines {
+            from { transform: translateY(0); }
+            to { transform: translateY(-4px); }
+        }
+        
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch::before {
+            color: var(--accent);
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+        
+        .glitch::after {
+            color: var(--secondary);
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+        
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        
+        /* Main layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        nav {
+            width: 280px;
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-header {
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .nav-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: var(--glow);
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .nav-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-header:hover h1::after {
+            transform: scaleX(1);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            flex-grow: 1;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .nav-menu li::before {
+            content: '>';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-menu li:hover::before {
+            opacity: 1;
+            left: -15px;
+        }
+        
+        .nav-menu a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .nav-menu a:hover::before {
+            left: 100%;
+        }
+        
+        .nav-menu a.active {
+            color: var(--text-light);
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.2), transparent);
+            box-shadow: var(--glow);
+        }
+        
+        .nav-menu a.active i {
+            color: var(--primary);
+        }
+        
+        .nav-menu i {
+            margin-right: 1rem;
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Main content */
+        main {
+            margin-left: 280px;
+            flex-grow: 1;
+            padding: 3rem;
+            position: relative;
+        }
+        
+        section {
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        section.visible {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            border-radius: 3px;
+        }
+        
+        /* Profile section */
+        .profile {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 30px var(--primary);
+            margin: 0 auto 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px var(--primary);
+        }
+        
+        .profile-img::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            animation: rotate 4s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .profile h3 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: var(--glow);
+        }
+        
+        .typing-container {
+            min-height: 1.5em;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .typing-animation {
+            font-size: 1.3rem;
+            color: var(--primary);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--primary);
+            animation: 
+                typing 4s steps(20) infinite,
+                blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            0% { width: 0 }
+            50% { width: 100% }
+            80% { width: 100% }
+            100% { width: 0 }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+        
+        /* Restricted access section */
+        .restricted-access {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            text-align: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .restricted-access::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at center, rgba(255, 0, 0, 0.1) 0%, transparent 70%),
+                linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+            z-index: -1;
+        }
+        
+        .restricted-access i {
+            font-size: 5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            text-shadow: var(--glow-accent);
+            animation: pulse 2s infinite, float 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .restricted-access h3 {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-accent);
+        }
+        
+        .restricted-access p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.6);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), #ff2d2d);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+        
+        .btn-accent:hover {
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+        }
+        
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--bg-nav);
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            margin-left: 280px;
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        .system-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 50%;
+            border: 1px solid var(--primary);
+            z-index: 1000;
+            cursor: pointer;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--primary);
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+        
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            nav {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 280px;
+            }
+            
+            nav.active {
+                transform: translateX(0);
+            }
+            
+            main, footer {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                padding: 1.5rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .profile-img {
+                width: 140px;
+                height: 140px;
+            }
+        }
+        
+        /* Binary rain effect */
+        .binary-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .binary-column {
+            position: absolute;
+            top: -100%;
+            color: var(--primary);
+            font-size: 1.2rem;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            text-shadow: 0 0 5px var(--primary);
+            animation: rain linear infinite;
+        }
+        
+        @keyframes rain {
+            to { transform: translateY(100vh); }
+        }
     </style>
 </head>
 <body>
-    <div class="background">
-        <div class="stars"></div>
+    <!-- Binary rain effect -->
+    <div class="binary-rain" id="binaryRain"></div>
+    
+    <!-- Mobile menu button -->
+    <div class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
-    <nav>
-        <h1>meowrax</h1>
-        <ul>
-            <li><a href="#info" class="active" onclick="showSection('info')"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50"><path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z"></path></svg>Информация</a></li>
-            <li><a href="#experience" onclick="showSection('experience')"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 512 512"><g><g><path d="M150.619,0L54.917,95.702V512h402.165V0H150.619z M146.165,25.961v65.287H80.878L146.165,25.961z M441.875,496.792 L441.875,496.792H70.125V106.455h91.248V15.208h280.502V496.792z"/></g></g><g><g><path d="M405.713,306.186v-85.164h-85.164v34.471h0h-23.718l-31.03-31.03v-23.718h91.247V120.65H159.345v80.095h91.248v23.718 l-31.031,31.03h-23.718v-34.471h-85.164v85.164h85.164v-35.485h23.718l31.03,31.03v23.718h-91.248v80.095h197.703V325.45h-91.248 v-23.718l31.031-31.03h23.718v35.485H405.713z M335.757,236.23h54.749v54.748h-54.749V236.23z M180.636,290.978h-54.749V236.23 h54.749V290.978z M174.553,185.537v-49.679H341.84v49.679H174.553z M341.84,340.657v49.679H174.553v-49.679H341.84z M258.197,287.829l-24.732-24.732l24.732-24.732l24.731,24.732L258.197,287.829z"/></g></g><g><g><g><polygon points="337.953,30.416 337.953,45.624 411.458,45.624 411.458,88.713 426.666,88.713 426.666,30.416 "/><rect x="411.458" y="103.921" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="85.333" y="392.871" width="15.208" height="15.208"/><polygon points="100.541,466.376 100.541,423.287 85.333,423.287 85.333,481.584 174.046,481.584 174.046,466.376 "/></g></g></g><g><g><g><rect x="250.593" y="450.661" width="15.208" height="15.208"/><rect x="250.593" y="420.246" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="250.593" y="58.297" width="15.208" height="15.208"/><rect x="250.593" y="88.713" width="15.208" height="15.208"/><rect x="250.593" y="27.881" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="197.365" y="153.093" width="15.208" height="15.208"/><rect x="283.543" y="153.093" width="35.485" height="15.208"/><rect x="227.781" y="153.093" width="40.554" height="15.208"/></g></g></g><g><g><g><rect x="197.365" y="357.893" width="60.832" height="15.208"/><rect x="273.404" y="357.893" width="15.208" height="15.208"/><rect x="303.82" y="357.893" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="411.797" y="436.467" width="15.208" height="37.513"/><rect x="411.797" y="405.038" width="15.208" height="16.222"/></g></g></g></svg>Проекты</a></li>
-            <li><a href="#contacts" onclick="showSection('contacts')"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 189.473 189.473"><g><path d="M152.531,179.476c-1.48,0-2.95-0.438-4.211-1.293l-47.641-32.316l-25.552,18.386c-2.004,1.441-4.587,1.804-6.914,0.972 c-2.324-0.834-4.089-2.759-4.719-5.146l-12.83-48.622L4.821,93.928c-2.886-1.104-4.8-3.865-4.821-6.955 c-0.021-3.09,1.855-5.877,4.727-7.02l174.312-69.36c0.791-0.336,1.628-0.53,2.472-0.582c0.302-0.018,0.605-0.018,0.906-0.001 c1.748,0.104,3.465,0.816,4.805,2.13c0.139,0.136,0.271,0.275,0.396,0.42c1.11,1.268,1.72,2.814,1.835,4.389 c0.028,0.396,0.026,0.797-0.009,1.198c-0.024,0.286-0.065,0.571-0.123,0.854L159.898,173.38c-0.473,2.48-2.161,4.556-4.493,5.523 C154.48,179.287,153.503,179.476,152.531,179.476z M104.862,130.579l42.437,28.785L170.193,39.24l-82.687,79.566l17.156,11.638 C104.731,130.487,104.797,130.533,104.862,130.579z M69.535,124.178l5.682,21.53l12.242-8.809l-16.03-10.874 C70.684,125.521,70.046,124.893,69.535,124.178z M28.136,86.782l31.478,12.035c2.255,0.862,3.957,2.758,4.573,5.092l3.992,15.129 c0.183-1.745,0.974-3.387,2.259-4.624L149.227,38.6L28.136,86.782z"/></g></svg>Контакты</a></li>
-            <li><a href="#important" onclick="showSection('important')"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 81.998 81.998"><g><path d="M40.999,0C18.392,0,0,18.392,0,40.999c0,22.606,18.392,40.999,40.999,40.999c22.606,0,40.999-18.393,40.999-40.999 C81.998,18.392,63.607,0,40.999,0z M40.999,77.998C20.598,77.998,4,61.4,4,40.999C4,20.598,20.598,4,40.999,4 s36.999,16.598,36.999,36.999C77.998,61.4,61.4,77.998,40.999,77.998z M45.708,12.744c0.376,0.387,0.581,0.908,0.567,1.447 l-1.319,41.372c-0.028,1.084-0.915,1.949-2,1.949h-3.915c-1.084,0-1.972-0.865-2-1.949l-1.319-41.372 c-0.014-0.539,0.191-1.061,0.567-1.447c0.376-0.386,0.893-0.604,1.432-0.604h6.555C44.814,12.141,45.332,12.358,45.708,12.744z M46.191,63.002v7.49c0,1.104-0.896,2-2,2h-6.385c-1.104,0-2-0.896-2-2v-7.49c0-1.104,0.896-2,2-2h6.385 C45.296,61.002,46.191,61.896,46.191,63.002z"/></g></svg>Важное</a></li>
+    
+    <!-- Navigation -->
+    <nav id="mainNav">
+        <div class="nav-header">
+            <h1 class="glitch" data-text="Xio">Xio</h1>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="#info" class="active" onclick="showSection('info')"><i class="fas fa-user-secret"></i>Профиль</a></li>
+            <li><a href="#experience" onclick="showSection('experience')"><i class="fas fa-lock"></i>Проекты</a></li>
+            <li><a href="#contacts" onclick="showSection('contacts')"><i class="fas fa-terminal"></i>Контакты</a></li>
+            <li><a href="#important" onclick="showSection('important')"><i class="fas fa-exclamation-triangle"></i>Важное</a></li>
         </ul>
+        
+        <div class="nav-footer">
+            <p>SYSTEM v3.1.4</p>
+            <p>© 2024 Xio Network</p>
+        </div>
     </nav>
-    <div class="bottom-nav">
-        <a href="#info" onclick="showSection('info')"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50"><path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z"></path></svg>Информация</a>
-        <a href="#experience" onclick="showSection('experience')"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 512 512"><g><g><path d="M150.619,0L54.917,95.702V512h402.165V0H150.619z M146.165,25.961v65.287H80.878L146.165,25.961z M441.875,496.792 L441.875,496.792H70.125V106.455h91.248V15.208h280.502V496.792z"/></g></g><g><g><path d="M405.713,306.186v-85.164h-85.164v34.471h0h-23.718l-31.03-31.03v-23.718h91.247V120.65H159.345v80.095h91.248v23.718 l-31.031,31.03h-23.718v-34.471h-85.164v85.164h85.164v-35.485h23.718l31.03,31.03v23.718h-91.248v80.095h197.703V325.45h-91.248 v-23.718l31.031-31.03h23.718v35.485H405.713z M335.757,236.23h54.749v54.748h-54.749V236.23z M180.636,290.978h-54.749V236.23 h54.749V290.978z M174.553,185.537v-49.679H341.84v49.679H174.553z M341.84,340.657v49.679H174.553v-49.679H341.84z M258.197,287.829l-24.732-24.732l24.732-24.732l24.731,24.732L258.197,287.829z"/></g></g><g><g><g><polygon points="337.953,30.416 337.953,45.624 411.458,45.624 411.458,88.713 426.666,88.713 426.666,30.416 "/><rect x="411.458" y="103.921" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="85.333" y="392.871" width="15.208" height="15.208"/><polygon points="100.541,466.376 100.541,423.287 85.333,423.287 85.333,481.584 174.046,481.584 174.046,466.376 "/></g></g></g><g><g><g><rect x="250.593" y="450.661" width="15.208" height="15.208"/><rect x="250.593" y="420.246" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="250.593" y="58.297" width="15.208" height="15.208"/><rect x="250.593" y="88.713" width="15.208" height="15.208"/><rect x="250.593" y="27.881" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="197.365" y="153.093" width="15.208" height="15.208"/><rect x="283.543" y="153.093" width="35.485" height="15.208"/><rect x="227.781" y="153.093" width="40.554" height="15.208"/></g></g></g><g><g><g><rect x="197.365" y="357.893" width="60.832" height="15.208"/><rect x="273.404" y="357.893" width="15.208" height="15.208"/><rect x="303.82" y="357.893" width="15.208" height="15.208"/></g></g></g><g><g><g><rect x="411.797" y="436.467" width="15.208" height="37.513"/><rect x="411.797" y="405.038" width="15.208" height="16.222"/></g></g></g></svg>Проекты</a></li>
-        <a href="#contacts" onclick="showSection('contacts')"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 189.473 189.473"><g><path d="M152.531,179.476c-1.48,0-2.95-0.438-4.211-1.293l-47.641-32.316l-25.552,18.386c-2.004,1.441-4.587,1.804-6.914,0.972 c-2.324-0.834-4.089-2.759-4.719-5.146l-12.83-48.622L4.821,93.928c-2.886-1.104-4.8-3.865-4.821-6.955 c-0.021-3.09,1.855-5.877,4.727-7.02l174.312-69.36c0.791-0.336,1.628-0.53,2.472-0.582c0.302-0.018,0.605-0.018,0.906-0.001 c1.748,0.104,3.465,0.816,4.805,2.13c0.139,0.136,0.271,0.275,0.396,0.42c1.11,1.268,1.72,2.814,1.835,4.389 c0.028,0.396,0.026,0.797-0.009,1.198c-0.024,0.286-0.065,0.571-0.123,0.854L159.898,173.38c-0.473,2.48-2.161,4.556-4.493,5.523 C154.48,179.287,153.503,179.476,152.531,179.476z M104.862,130.579l42.437,28.785L170.193,39.24l-82.687,79.566l17.156,11.638 C104.731,130.487,104.797,130.533,104.862,130.579z M69.535,124.178l5.682,21.53l12.242-8.809l-16.03-10.874 C70.684,125.521,70.046,124.893,69.535,124.178z M28.136,86.782l31.478,12.035c2.255,0.862,3.957,2.758,4.573,5.092l3.992,15.129 c0.183-1.745,0.974-3.387,2.259-4.624L149.227,38.6L28.136,86.782z"/></g></svg>Контакты</a>
-        <a href="#important" onclick="showSection('important')"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 81.998 81.998"><g><path d="M40.999,0C18.392,0,0,18.392,0,40.999c0,22.606,18.392,40.999,40.999,40.999c22.606,0,40.999-18.393,40.999-40.999 C81.998,18.392,63.607,0,40.999,0z M40.999,77.998C20.598,77.998,4,61.4,4,40.999C4,20.598,20.598,4,40.999,4 s36.999,16.598,36.999,36.999C77.998,61.4,61.4,77.998,40.999,77.998z M45.708,12.744c0.376,0.387,0.581,0.908,0.567,1.447 l-1.319,41.372c-0.028,1.084-0.915,1.949-2,1.949h-3.915c-1.084,0-1.972-0.865-2-1.949l-1.319-41.372 c-0.014-0.539,0.191-1.061,0.567-1.447c0.376-0.386,0.893-0.604,1.432-0.604h6.555C44.814,12.141,45.332,12.358,45.708,12.744z M46.191,63.002v7.49c0,1.104-0.896,2-2,2h-6.385c-1.104,0-2-0.896-2-2v-7.49c0-1.104,0.896-2,2-2h6.385 C45.296,61.002,46.191,61.896,46.191,63.002z"/></g></svg>Важное</a>
-    </div>
+    
+    <!-- Main content -->
     <main>
+        <!-- Profile section -->
         <section id="info" class="visible">
             <div class="profile">
-                <img src="photo_2024-07-11_04-42-14.jpg" alt="Profile Picture">
-                <h3>meowrax</h3>
-                <p class="typing-animation">СОЗДАТЕЛЬ ВАШЕЙ МОДЫ</p>
-                <p id="current-time"></p>
+                <img src="photo_2024-07-11_04-42-14.jpg" alt="Xio" class="profile-img">
+                <h3>XIO</h3>
+                <div class="typing-container">
+                    <span class="typing-animation">CYBER DEVELOPER</span>
+                </div>
+                <div id="current-time" style="margin-top: 1rem; font-size: 1.2rem; color: var(--secondary);"></div>
             </div>
         </section>
+        
+        <!-- Projects section -->
         <section id="experience" class="hidden">
-            <h2>Опыт работы</h2>
-            <div class="grid-container">
-                <div class="job">
-                    <h3>🤖 Aevox Panel</h3>
-                    <p>- Должность: Разработчик</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/AevoxPanelBot" class="animated-button">Telegram</a></div>
-                </div>
-                <div class="job">
-                    <h3>🤖 Aevox Boost</h3>
-                    <p>- Должность: Разработчик</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/AevoxBoostbot" class="animated-button">Telegram</a></div>
-                </div>
-                <div class="job">
-                    <h3>🤖 Aevox первонах</h3>
-                    <p>- Должность: Разработчик</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/testat1122bot" class="animated-button">Telegram</a></div>
-                </div>
-                <div class="job">
-                    <h3>🤖 Aevox вход</h3>
-                    <p>- Должность: Разработчик</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/meowraxVhkodBot" class="animated-button">Telegram</a></div>
-                </div>
-                <div class="job">
-                    <h3>🤖 Aevox чекер</h3>
-                    <p>- Должность: Разработчик</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/Meowrax_Bot" class="animated-button">Telegram</a></div>
-                </div>
-                <div class="job">
-                    <h3>🤖 Aevox спамер</h3>
-                    <p>- Должность: Разработчик</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/meowraxSpambot" class="animated-button">Telegram</a></div>
-                </div>
-                <div class="job">
-                    <h3>💎 Поддержка</h3>
-                    <p>- Должность: Специалист поддержки</p>
-                    <p>- Работаю с 2024 года</p>
-                    <p>- Заказной проект: ❌</p>
-                    <div class="button-group job-buttons"><a href="https://t.me/Fishing_Telegram" class="animated-button">Telegram</a></div>
-                </div>
+            <h2><i class="fas fa-lock"></i> PROTECTED DATA</h2>
+            <div class="restricted-access">
+                <i class="fas fa-user-lock"></i>
+                <h3>ДОСТУП ЗАПРЕЩЕН</h3>
+                <p>Этот раздел содержит конфиденциальную информацию. Для получения доступа требуется авторизация 5-го уровня.</p>
+                <a href="#contacts" class="btn btn-accent" onclick="showSection('contacts')">
+                    <i class="fas fa-key"></i> ЗАПРОСИТЬ ДОСТУП
+                </a>
             </div>
         </section>
+        
+        <!-- Contacts section -->
         <section id="contacts" class="hidden">
-            <h2>Контакты</h2>
-            <div class="button-group">
-                <a href="https://t.me/Fishing_Telegram">Telegram</a>
+            <h2>КОНТАКТНЫЕ КАНАЛЫ</h2>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="margin-bottom: 2rem; color: var(--text-muted);">Выберите способ связи:</p>
+                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="https://t.me/meowrax1337" class="btn">
+                        <i class="fab fa-telegram"></i> Telegram
+                    </a>
+                    <a href="https://github.com/username" class="btn">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
             </div>
         </section>
+        
+        <!-- Important section -->
         <section id="important" class="hidden">
-            <h2>Важное</h2>
-            <img src="photo_2024-08-23_23-49-52.jpg" alt="Important Image 1" style="width: 100%; margin-bottom: 20px;">
-            <img src="photo_2024-08-23_23-49-55.jpg" alt="Important Image 2" style="width: 100%;">
+            <h2>ВАЖНАЯ ИНФОРМАЦИЯ</h2>
+            <div style="margin-top: 2rem;">
+                <img src="photo_2024-08-23_23-49-52.jpg" alt="System Alert" style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                <img src="photo_2024-08-23_23-49-55.jpg" alt="Security Protocol" style="width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+            </div>
         </section>
     </main>
+    
     <footer>
-        <p>&copy; 2024 meowrax. Все права защищены.</p>
+        <div class="system-status">
+            <span>SYSTEM STATUS:</span>
+            <span class="status-indicator"></span>
+            <span>ONLINE</span>
+        </div>
+        <div>LAST UPDATE: 25.03.2025</div>
     </footer>
+    
     <script>
-        (function(){
-            window.showSection = function showSection(a){
-                const sections = document.querySelectorAll("main section");
-                sections.forEach(section => {
-                    section.classList.remove("visible");
-                    section.classList.add("hidden");
-                });
-                const activeLink = document.querySelector("nav ul li a.active");
-                if(activeLink){
-                    activeLink.classList.remove("active");
+        // Binary rain effect
+        function createBinaryRain() {
+            const container = document.getElementById('binaryRain');
+            const width = window.innerWidth;
+            const columns = Math.floor(width / 20);
+            
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'binary-column';
+                column.style.left = `${i * 20}px`;
+                column.style.animationDuration = `${5 + Math.random() * 10}s`;
+                column.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Create binary content
+                let binaryContent = '';
+                const lines = 30 + Math.floor(Math.random() * 20);
+                for (let j = 0; j < lines; j++) {
+                    binaryContent += Math.random() > 0.5 ? '1' : '0';
+                    binaryContent += '\n';
                 }
-                document.querySelector(`nav ul li a[href="#${a}"]`).classList.add("active");
-                document.getElementById(a).classList.add("visible");
-                document.getElementById(a).classList.remove("hidden");
+                
+                column.textContent = binaryContent;
+                container.appendChild(column);
             }
-            window.showMessage = function showMessage(){
-                const messageContainer = document.getElementById("message-container");
-                const progressBar = document.getElementById("progress-bar");
-                messageContainer.style.display = "block";
-                progressBar.style.width = "0";
-                setTimeout(() => {
-                    progressBar.style.transition = "width 3s linear";
-                    progressBar.style.width = "100%";
-                }, 10);
-                setTimeout(() => {
-                    messageContainer.style.transition = "opacity 0.5s ease-out";
-                    messageContainer.style.opacity = "0";
-                    setTimeout(() => {
-                        messageContainer.style.display = "none";
-                        messageContainer.style.opacity = "1";
-                        progressBar.style.transition = "none";
-                    }, 500);
-                }, 3000);
+        }
+        
+        // Show section
+        function showSection(sectionId) {
+            // Hide mobile menu if open
+            document.getElementById('mainNav').classList.remove('active');
+            document.getElementById('mobileMenuBtn').classList.remove('active');
+            
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('visible');
+                section.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('visible');
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Add active class to clicked nav item
+            document.querySelector(`.nav-menu a[href="#${sectionId}"]`).classList.add('active');
+        }
+        
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                timeZone: "Europe/Moscow",
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('ru-RU', options);
+        }
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createBinaryRain();
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            // Set initial active section
+            if (window.location.hash) {
+                showSection(window.location.hash.substring(1));
             }
-            function updateTime(){
-                const now = new Date();
-                const options = {timeZone:"Europe/Moscow", hour:"2-digit", minute:"2-digit", second:"2-digit"};
-                const timeString = now.toLocaleTimeString("ru-RU", options);
-                document.getElementById("current-time").textContent = timeString;
-            }
-            document.addEventListener("DOMContentLoaded", () => {
-                updateTime();
-                setInterval(updateTime, 1000);
-            })
-        })();
+        });
+        
+        // Handle hash changes
+        window.addEventListener('hashchange', function() {
+            showSection(window.location.hash.substring(1));
+        });
     </script>
 </body>
 </html>
