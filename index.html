@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Xio Bio</title>
     
-    <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- БАЗА --- */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -24,19 +21,32 @@
             background-color: #000; color: #fff;
         }
 
-        /* --- ФОН --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
+            color: white; font-family: 'JetBrains Mono', monospace; letter-spacing: 2px;
+        }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 999; opacity: 0.06;
+            background: url('https://raw.githubusercontent.com/iso-form/iso-form/master/src/assets/noise.png');
+        }
+
         .video-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover; z-index: -2;
             opacity: 0.7; filter: contrast(1.1) brightness(0.7) grayscale(0.3);
         }
+
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6); z-index: -1;
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
 
-        /* --- КАРТОЧКА --- */
         .card {
             position: relative; width: 90%; max-width: 380px;
             background: rgba(20, 20, 20, 0.4);
@@ -50,7 +60,6 @@
         }
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* --- АВАТАР --- */
         .avatar-container { position: relative; margin-bottom: 15px; }
         .avatar {
             width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
@@ -60,8 +69,8 @@
         }
         .avatar:hover { transform: scale(1.03); border-color: rgba(255, 255, 255, 0.4); }
 
-        /* --- ТЕКСТ --- */
         h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        
         .username {
             font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.05);
@@ -69,9 +78,12 @@
             text-decoration: none; border: 1px solid transparent; transition: 0.3s;
         }
         .username:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1); color: #fff; }
-        .description { font-size: 0.9rem; line-height: 1.6; color: #ccc; margin-bottom: 20px; font-weight: 300; }
+        
+        .description { 
+            font-size: 0.9rem; line-height: 1.6; color: #ccc; margin-bottom: 20px; 
+            font-weight: 300;
+        }
 
-        /* --- ПЛЕЕР --- */
         .player-container {
             width: 100%; background: rgba(0, 0, 0, 0.3);
             border-radius: 16px; padding: 15px;
@@ -82,12 +94,8 @@
         .track-title { font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .track-artist { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); font-family: 'JetBrains Mono', monospace; }
 
-        /* Контролы плеера (кнопки и бары) */
-        .controls-row {
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
-        }
-        
-        /* Кнопка Play */
+        .controls-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
         .play-btn {
             background: none; border: none; color: #fff; font-size: 1.1rem;
             cursor: pointer; width: 25px; height: 25px;
@@ -95,7 +103,6 @@
         }
         .play-btn:active { transform: scale(0.9); color: #aaa; }
 
-        /* Общие стили для ползунков */
         input[type="range"] {
             -webkit-appearance: none; background: rgba(255, 255, 255, 0.1);
             border-radius: 2px; cursor: pointer; outline: none; height: 4px;
@@ -105,19 +112,13 @@
             background: #fff; border-radius: 50%; cursor: pointer;
             box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
-        
-        /* Прогресс бар (длинный) */
+
         .progress-bar { flex-grow: 1; width: 100%; }
-        
-        /* Блок громкости */
-        .volume-container {
-            display: flex; align-items: center; gap: 5px; width: 80px;
-        }
+
+        .volume-container { display: flex; align-items: center; gap: 5px; width: 80px; }
         .volume-icon { font-size: 0.8rem; color: rgba(255,255,255,0.6); width: 15px;}
         .volume-slider { width: 100%; }
 
-
-        /* --- FOOTER --- */
         .footer-info {
             width: 100%; display: flex; justify-content: space-between; align-items: center;
             font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
@@ -134,6 +135,9 @@
     </style>
 </head>
 <body>
+
+    <div id="preloader">LOADING...</div>
+    <div class="noise-overlay"></div>
 
     <video class="video-bg" autoplay muted loop playsinline>
         <source src="assets/fon.mp4" type="video/mp4">
@@ -152,20 +156,17 @@
             <span style="opacity: 0.6; font-size: 0.8em;">$$$</span>
         </p>
 
-        <!-- ПЛЕЕР -->
         <div class="player-container">
             <div class="track-info">
                 <div class="track-title">Runnin Thru the 7th with My Woadies</div>
                 <div class="track-artist">$uicideboy$</div>
             </div>
-            
-            <!-- Ряд управления: Play + Прогресс -->
+
             <div class="controls-row">
                 <button class="play-btn" id="playBtn"><i class="fas fa-play"></i></button>
                 <input type="range" class="progress-bar" id="progressBar" value="0" min="0" step="1">
             </div>
 
-            <!-- Ряд громкости -->
             <div class="controls-row" style="justify-content: flex-end;">
                 <div class="volume-container">
                     <i class="fas fa-volume-down volume-icon"></i>
@@ -185,7 +186,14 @@
     </div>
 
     <script>
-        // --- ЧАСЫ ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 800);
+        });
+
         function updateClock() {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
@@ -193,38 +201,26 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- ПЛЕЕР ---
         const audio = document.getElementById('audioTrack');
         const playBtn = document.getElementById('playBtn');
         const icon = playBtn.querySelector('i');
         const progressBar = document.getElementById('progressBar');
         const volumeSlider = document.getElementById('volumeSlider');
 
-        // 1. Инициализация громкости
-        audio.volume = volumeSlider.value; // Сразу берем значение из ползунка (0.1)
+        audio.volume = volumeSlider.value;
 
-        // 2. Управление громкостью
         volumeSlider.addEventListener('input', (e) => {
             audio.volume = e.target.value;
         });
 
-        // 3. Кнопка Play/Pause
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
-                // Пытаемся запустить
                 const playPromise = audio.play();
-                
-                // Обработка ошибок запуска (важно для отладки)
                 if (playPromise !== undefined) {
                     playPromise.then(_ => {
-                        // Успешный старт
                         icon.classList.remove('fa-play');
                         icon.classList.add('fa-pause');
-                    })
-                    .catch(error => {
-                        console.error("Ошибка воспроизведения:", error);
-                        // Обычно ошибка здесь, если путь неверный или браузер блокирует
-                    });
+                    }).catch(error => { console.error(error); });
                 }
             } else {
                 audio.pause();
@@ -233,20 +229,16 @@
             }
         });
 
-        // 4. Обновление прогресс-бара
         audio.addEventListener('timeupdate', () => {
             if (!isDragging) {
                 progressBar.value = audio.currentTime;
             }
         });
 
-        // 5. Загрузка длительности трека
         audio.addEventListener('loadedmetadata', () => {
             progressBar.max = audio.duration;
-            console.log("Трек загружен, длительность:", audio.duration);
         });
 
-        // 6. Перемотка
         let isDragging = false;
         progressBar.addEventListener('input', () => { isDragging = true; });
         progressBar.addEventListener('change', () => {
@@ -254,7 +246,6 @@
             isDragging = false;
         });
 
-        // 7. Конец трека
         audio.addEventListener('ended', () => {
             icon.classList.remove('fa-pause');
             icon.classList.add('fa-play');
