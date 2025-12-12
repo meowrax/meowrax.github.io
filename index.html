@@ -692,6 +692,57 @@ body {
     50% { transform: scaleY(0.5); }
 }
 
+.yandex-widget {
+    width: 100%; padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 16px; margin-bottom: 15px;
+    display: none; align-items: center; gap: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    text-decoration: none; color: inherit;
+    transition: all 0.3s ease;
+}
+.yandex-widget.playing { display: flex; }
+.yandex-widget:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+.yandex-widget-art {
+    width: 50px; height: 50px; border-radius: 8px;
+    object-fit: cover; flex-shrink: 0;
+    background: rgba(255,255,255,0.05);
+}
+.yandex-widget-info {
+    flex: 1; min-width: 0; text-align: left;
+}
+.yandex-widget-status {
+    font-size: 0.65rem; color: #FFCC00;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: flex; align-items: center; gap: 5px;
+    margin-bottom: 3px;
+}
+.yandex-widget-status i { font-size: 0.7rem; }
+.yandex-widget-bars {
+    display: flex; align-items: flex-end; gap: 2px; height: 12px;
+}
+.yandex-widget-bar {
+    width: 3px; background: #FFCC00; border-radius: 1px;
+    animation: spotifyBars 0.8s ease-in-out infinite;
+}
+.yandex-widget-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
+.yandex-widget-bar:nth-child(2) { height: 70%; animation-delay: 0.2s; }
+.yandex-widget-bar:nth-child(3) { height: 50%; animation-delay: 0.4s; }
+.yandex-widget-title {
+    font-size: 0.85rem; font-weight: 600; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.yandex-widget-artist {
+    font-size: 0.7rem; color: rgba(255,255,255,0.5);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.yandex-widget-icon {
+    color: #FFCC00; font-size: 1.2rem; flex-shrink: 0;
+}
+
 .t2-body {
     font-family: 'Outfit', sans-serif; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;
     --accent: #a855f7; --text-muted: rgba(255, 255, 255, 0.5);
@@ -919,6 +970,15 @@ body {
 </div>
 <i class="fab fa-spotify spotify-widget-icon"></i>
 </a>
+<a href="#" target="_blank" class="yandex-widget" id="yandex-widget-dark" aria-label="Yandex Music">
+<img class="yandex-widget-art" id="yandex-art-dark" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Album art">
+<div class="yandex-widget-info">
+<div class="yandex-widget-status"><div class="yandex-widget-bars"><div class="yandex-widget-bar"></div><div class="yandex-widget-bar"></div><div class="yandex-widget-bar"></div></div><span id="yandex-status-dark">Сейчас слушает</span></div>
+<div class="yandex-widget-title" id="yandex-title-dark"></div>
+<div class="yandex-widget-artist" id="yandex-artist-dark"></div>
+</div>
+<i class="fas fa-music yandex-widget-icon"></i>
+</a>
 <div class="t1-player">
 <div class="t1-track-info"><div class="t1-track-title">Runnin Thru the 7th...</div><div class="t1-track-artist">$uicideboy$</div></div>
 <div class="t1-controls">
@@ -972,6 +1032,15 @@ body {
 <div class="spotify-widget-artist" id="spotify-artist-reflect"></div>
 </div>
 <i class="fab fa-spotify spotify-widget-icon" style="color: #a855f7;"></i>
+</a>
+<a href="#" target="_blank" class="yandex-widget" id="yandex-widget-reflect" style="border-color: rgba(168, 85, 247, 0.1);" aria-label="Yandex Music">
+<img class="yandex-widget-art" id="yandex-art-reflect" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Album art">
+<div class="yandex-widget-info">
+<div class="yandex-widget-status" style="color: #a855f7;"><div class="yandex-widget-bars"><div class="yandex-widget-bar" style="background:#a855f7;"></div><div class="yandex-widget-bar" style="background:#a855f7;"></div><div class="yandex-widget-bar" style="background:#a855f7;"></div></div><span id="yandex-status-reflect">Сейчас слушает</span></div>
+<div class="yandex-widget-title" id="yandex-title-reflect"></div>
+<div class="yandex-widget-artist" id="yandex-artist-reflect"></div>
+</div>
+<i class="fas fa-music yandex-widget-icon" style="color: #a855f7;"></i>
 </a>
 <div class="t2-social-grid">
 <a href="https://t.me/Xio666Xio" target="_blank" class="t2-btn"><i class="fab fa-telegram-plane"></i> Telegram</a>
@@ -1351,13 +1420,62 @@ function updateSpotifyWidgets(data) {
             if (w.player) w.player.classList.add('hidden');
         } else {
             w.widget.classList.remove('playing');
-            if (w.player) w.player.classList.remove('hidden');
+            // Показываем плеер только если и Yandex тоже не играет
+            const yandexWidgetDark = $('#yandex-widget-dark');
+            const yandexWidgetReflect = $('#yandex-widget-reflect');
+            const isYandexPlaying = (yandexWidgetDark && yandexWidgetDark.classList.contains('playing')) || 
+                                    (yandexWidgetReflect && yandexWidgetReflect.classList.contains('playing'));
+            if (w.player && !isYandexPlaying) w.player.classList.remove('hidden');
         }
     });
 }
 
 fetchSpotifyStatus();
 setInterval(fetchSpotifyStatus, 5000);
+
+const YANDEX_API = 'https://spotify-api-tau-green.vercel.app/api/yandex-now-playing';
+
+async function fetchYandexStatus() {
+    try {
+        const res = await fetch(YANDEX_API);
+        const data = await res.json();
+        updateYandexWidgets(data);
+    } catch (e) {
+        console.warn('Yandex fetch failed:', e);
+    }
+}
+
+function updateYandexWidgets(data) {
+    const widgets = [
+        { widget: $('#yandex-widget-dark'), art: $('#yandex-art-dark'), title: $('#yandex-title-dark'), artist: $('#yandex-artist-dark'), status: $('#yandex-status-dark'), player: $('.t1-player') },
+        { widget: $('#yandex-widget-reflect'), art: $('#yandex-art-reflect'), title: $('#yandex-title-reflect'), artist: $('#yandex-artist-reflect'), status: $('#yandex-status-reflect'), player: $('.t2-player') }
+    ];
+
+    widgets.forEach(w => {
+        if (!w.widget) return;
+        
+        if (data.isPlaying) {
+            w.widget.classList.add('playing');
+            w.widget.href = data.songUrl || '#';
+            w.art.src = data.albumArt || '';
+            w.title.textContent = data.title || 'Unknown';
+            w.artist.textContent = data.artist || 'Unknown';
+            w.status.textContent = 'Яндекс Музыка';
+            if (w.player) w.player.classList.add('hidden');
+        } else {
+            w.widget.classList.remove('playing');
+            // Показываем плеер только если и Spotify тоже не играет
+            const spotifyWidgetDark = $('#spotify-widget-dark');
+            const spotifyWidgetReflect = $('#spotify-widget-reflect');
+            const isSpotifyPlaying = (spotifyWidgetDark && spotifyWidgetDark.classList.contains('playing')) || 
+                                     (spotifyWidgetReflect && spotifyWidgetReflect.classList.contains('playing'));
+            if (w.player && !isSpotifyPlaying) w.player.classList.remove('hidden');
+        }
+    });
+}
+
+fetchYandexStatus();
+setInterval(fetchYandexStatus, 5000);
 
 const VISITORS_API = 'https://spotify-api-tau-green.vercel.app/api/visitors';
 const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'xio';
