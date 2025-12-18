@@ -672,6 +672,118 @@ body {
 }
 .t1-player.hidden, .t2-player.hidden { display: none; }
 
+/* Track Request Form */
+.track-request {
+    width: 100%; margin-bottom: 15px;
+}
+.track-request-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px; color: rgba(255,255,255,0.6);
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.track-request-header i { color: #1DB954; font-size: 0.85rem; }
+.track-request-form {
+    display: flex; gap: 8px; width: 100%;
+}
+.track-request-input {
+    flex: 1; padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem; outline: none;
+    transition: all 0.3s ease;
+}
+.track-request-input::placeholder { color: rgba(255,255,255,0.3); }
+.track-request-input:focus {
+    border-color: rgba(29, 185, 84, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+}
+.track-request-btn {
+    padding: 12px 20px;
+    background: #1DB954;
+    border: none; border-radius: 12px;
+    color: #000; font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem; cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 6px;
+}
+.track-request-btn:hover {
+    background: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+}
+.track-request-btn:disabled {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.3);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+.track-request-btn.loading {
+    pointer-events: none;
+}
+.track-request-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.track-request-result {
+    margin-top: 10px; padding: 10px 15px;
+    border-radius: 10px; font-size: 0.8rem;
+    display: none; align-items: center; gap: 10px;
+    animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.track-request-result.success {
+    display: flex;
+    background: rgba(29, 185, 84, 0.15);
+    border: 1px solid rgba(29, 185, 84, 0.3);
+    color: #1DB954;
+}
+.track-request-result.error {
+    display: flex;
+    background: rgba(255, 87, 87, 0.15);
+    border: 1px solid rgba(255, 87, 87, 0.3);
+    color: #ff5757;
+}
+.track-request-result-art {
+    width: 40px; height: 40px; border-radius: 6px;
+    object-fit: cover; flex-shrink: 0;
+}
+.track-request-result-info { flex: 1; min-width: 0; text-align: left; }
+.track-request-result-title {
+    font-weight: 600; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.track-request-result-artist {
+    font-size: 0.7rem; color: rgba(255,255,255,0.5);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Reflect theme adjustments */
+.t2-track-request .track-request-input:focus {
+    border-color: rgba(168, 85, 247, 0.5);
+}
+.t2-track-request .track-request-btn {
+    background: #a855f7;
+}
+.t2-track-request .track-request-btn:hover {
+    background: #c084fc;
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3);
+}
+.t2-track-request .track-request-header i { color: #a855f7; }
+.t2-track-request .track-request-result.success {
+    background: rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.3);
+    color: #a855f7;
+}
+
 .admin-stats {
     display: none;
     position: absolute; bottom: 15px; left: 15px; right: 15px;
@@ -692,56 +804,6 @@ body {
     50% { transform: scaleY(0.5); }
 }
 
-.yandex-widget {
-    width: 100%; padding: 12px 15px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 16px; margin-bottom: 15px;
-    display: none; align-items: center; gap: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
-    text-decoration: none; color: inherit;
-    transition: all 0.3s ease;
-}
-.yandex-widget.playing { display: flex; }
-.yandex-widget:hover {
-    background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 193, 7, 0.3);
-}
-.yandex-widget-art {
-    width: 50px; height: 50px; border-radius: 8px;
-    object-fit: cover; flex-shrink: 0;
-    background: rgba(255,255,255,0.05);
-}
-.yandex-widget-info {
-    flex: 1; min-width: 0; text-align: left;
-}
-.yandex-widget-status {
-    font-size: 0.65rem; color: #FFCC00;
-    text-transform: uppercase; letter-spacing: 1px;
-    display: flex; align-items: center; gap: 5px;
-    margin-bottom: 3px;
-}
-.yandex-widget-status i { font-size: 0.7rem; }
-.yandex-widget-bars {
-    display: flex; align-items: flex-end; gap: 2px; height: 12px;
-}
-.yandex-widget-bar {
-    width: 3px; background: #FFCC00; border-radius: 1px;
-    animation: spotifyBars 0.8s ease-in-out infinite;
-}
-.yandex-widget-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
-.yandex-widget-bar:nth-child(2) { height: 70%; animation-delay: 0.2s; }
-.yandex-widget-bar:nth-child(3) { height: 50%; animation-delay: 0.4s; }
-.yandex-widget-title {
-    font-size: 0.85rem; font-weight: 600; color: #fff;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.yandex-widget-artist {
-    font-size: 0.7rem; color: rgba(255,255,255,0.5);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.yandex-widget-icon {
-    color: #FFCC00; font-size: 1.2rem; flex-shrink: 0;
-}
 
 .t2-body {
     font-family: 'Outfit', sans-serif; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;
@@ -970,15 +1032,20 @@ body {
 </div>
 <i class="fab fa-spotify spotify-widget-icon"></i>
 </a>
-<a href="#" target="_blank" class="yandex-widget" id="yandex-widget-dark" aria-label="Yandex Music">
-<img class="yandex-widget-art" id="yandex-art-dark" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Album art">
-<div class="yandex-widget-info">
-<div class="yandex-widget-status"><div class="yandex-widget-bars"><div class="yandex-widget-bar"></div><div class="yandex-widget-bar"></div><div class="yandex-widget-bar"></div></div><span id="yandex-status-dark">Сейчас слушает</span></div>
-<div class="yandex-widget-title" id="yandex-title-dark"></div>
-<div class="yandex-widget-artist" id="yandex-artist-dark"></div>
+<div class="track-request" id="track-request-dark">
+<div class="track-request-header"><i class="fab fa-spotify"></i><span>Заказать трек</span></div>
+<form class="track-request-form" id="track-form-dark" onsubmit="return false;">
+<input type="text" class="track-request-input" id="track-input-dark" placeholder="Название трека или артист..." maxlength="100" autocomplete="off">
+<button type="submit" class="track-request-btn" id="track-btn-dark"><i class="fas fa-play"></i><span>Play</span></button>
+</form>
+<div class="track-request-result" id="track-result-dark">
+<img class="track-request-result-art" id="track-result-art-dark" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+<div class="track-request-result-info">
+<div class="track-request-result-title" id="track-result-title-dark"></div>
+<div class="track-request-result-artist" id="track-result-artist-dark"></div>
 </div>
-<i class="fas fa-music yandex-widget-icon"></i>
-</a>
+</div>
+</div>
 <div class="t1-player">
 <div class="t1-track-info"><div class="t1-track-title">Runnin Thru the 7th...</div><div class="t1-track-artist">$uicideboy$</div></div>
 <div class="t1-controls">
@@ -1033,15 +1100,20 @@ body {
 </div>
 <i class="fab fa-spotify spotify-widget-icon" style="color: #a855f7;"></i>
 </a>
-<a href="#" target="_blank" class="yandex-widget" id="yandex-widget-reflect" style="border-color: rgba(168, 85, 247, 0.1);" aria-label="Yandex Music">
-<img class="yandex-widget-art" id="yandex-art-reflect" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Album art">
-<div class="yandex-widget-info">
-<div class="yandex-widget-status" style="color: #a855f7;"><div class="yandex-widget-bars"><div class="yandex-widget-bar" style="background:#a855f7;"></div><div class="yandex-widget-bar" style="background:#a855f7;"></div><div class="yandex-widget-bar" style="background:#a855f7;"></div></div><span id="yandex-status-reflect">Сейчас слушает</span></div>
-<div class="yandex-widget-title" id="yandex-title-reflect"></div>
-<div class="yandex-widget-artist" id="yandex-artist-reflect"></div>
+<div class="track-request t2-track-request" id="track-request-reflect">
+<div class="track-request-header"><i class="fab fa-spotify"></i><span>Заказать трек</span></div>
+<form class="track-request-form" id="track-form-reflect" onsubmit="return false;">
+<input type="text" class="track-request-input" id="track-input-reflect" placeholder="Название трека или артист..." maxlength="100" autocomplete="off">
+<button type="submit" class="track-request-btn" id="track-btn-reflect"><i class="fas fa-play"></i><span>Play</span></button>
+</form>
+<div class="track-request-result" id="track-result-reflect">
+<img class="track-request-result-art" id="track-result-art-reflect" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+<div class="track-request-result-info">
+<div class="track-request-result-title" id="track-result-title-reflect"></div>
+<div class="track-request-result-artist" id="track-result-artist-reflect"></div>
 </div>
-<i class="fas fa-music yandex-widget-icon" style="color: #a855f7;"></i>
-</a>
+</div>
+</div>
 <div class="t2-social-grid">
 <a href="https://t.me/Xio666Xio" target="_blank" class="t2-btn"><i class="fab fa-telegram-plane"></i> Telegram</a>
 <div class="t2-btn" onclick="copyDiscord('reflect')"><i class="fab fa-discord"></i> Discord</div>
@@ -1420,62 +1492,13 @@ function updateSpotifyWidgets(data) {
             if (w.player) w.player.classList.add('hidden');
         } else {
             w.widget.classList.remove('playing');
-            // Показываем плеер только если и Yandex тоже не играет
-            const yandexWidgetDark = $('#yandex-widget-dark');
-            const yandexWidgetReflect = $('#yandex-widget-reflect');
-            const isYandexPlaying = (yandexWidgetDark && yandexWidgetDark.classList.contains('playing')) || 
-                                    (yandexWidgetReflect && yandexWidgetReflect.classList.contains('playing'));
-            if (w.player && !isYandexPlaying) w.player.classList.remove('hidden');
+            if (w.player) w.player.classList.remove('hidden');
         }
     });
 }
 
 fetchSpotifyStatus();
 setInterval(fetchSpotifyStatus, 5000);
-
-const YANDEX_API = 'https://spotify-api-tau-green.vercel.app/api/yandex-now-playing';
-
-async function fetchYandexStatus() {
-    try {
-        const res = await fetch(YANDEX_API);
-        const data = await res.json();
-        updateYandexWidgets(data);
-    } catch (e) {
-        console.warn('Yandex fetch failed:', e);
-    }
-}
-
-function updateYandexWidgets(data) {
-    const widgets = [
-        { widget: $('#yandex-widget-dark'), art: $('#yandex-art-dark'), title: $('#yandex-title-dark'), artist: $('#yandex-artist-dark'), status: $('#yandex-status-dark'), player: $('.t1-player') },
-        { widget: $('#yandex-widget-reflect'), art: $('#yandex-art-reflect'), title: $('#yandex-title-reflect'), artist: $('#yandex-artist-reflect'), status: $('#yandex-status-reflect'), player: $('.t2-player') }
-    ];
-
-    widgets.forEach(w => {
-        if (!w.widget) return;
-        
-        if (data.isPlaying) {
-            w.widget.classList.add('playing');
-            w.widget.href = data.songUrl || '#';
-            w.art.src = data.albumArt || '';
-            w.title.textContent = data.title || 'Unknown';
-            w.artist.textContent = data.artist || 'Unknown';
-            w.status.textContent = 'Яндекс Музыка';
-            if (w.player) w.player.classList.add('hidden');
-        } else {
-            w.widget.classList.remove('playing');
-            // Показываем плеер только если и Spotify тоже не играет
-            const spotifyWidgetDark = $('#spotify-widget-dark');
-            const spotifyWidgetReflect = $('#spotify-widget-reflect');
-            const isSpotifyPlaying = (spotifyWidgetDark && spotifyWidgetDark.classList.contains('playing')) || 
-                                     (spotifyWidgetReflect && spotifyWidgetReflect.classList.contains('playing'));
-            if (w.player && !isSpotifyPlaying) w.player.classList.remove('hidden');
-        }
-    });
-}
-
-fetchYandexStatus();
-setInterval(fetchYandexStatus, 5000);
 
 const VISITORS_API = 'https://spotify-api-tau-green.vercel.app/api/visitors';
 const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'xio';
@@ -1500,6 +1523,129 @@ async function fetchVisitors() {
 }
 
 fetchVisitors();
+
+// Track Request Functionality
+const PLAY_TRACK_API = 'https://spotify-api-tau-green.vercel.app/api/play-track';
+
+async function requestTrack(theme) {
+    const input = $(`#track-input-${theme}`);
+    const btn = $(`#track-btn-${theme}`);
+    const result = $(`#track-result-${theme}`);
+    const resultArt = $(`#track-result-art-${theme}`);
+    const resultTitle = $(`#track-result-title-${theme}`);
+    const resultArtist = $(`#track-result-artist-${theme}`);
+    
+    const query = input.value.trim();
+    if (!query) {
+        showTrackResult(theme, false, 'Введи название трека!');
+        return;
+    }
+
+    // Disable button and show loading
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.innerHTML = '<i class="fas fa-spinner"></i><span>...</span>';
+    result.className = 'track-request-result';
+
+    try {
+        const res = await fetch(PLAY_TRACK_API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, action: 'play' })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+            if (data.track) {
+                resultArt.src = data.track.albumArt || '';
+                resultTitle.textContent = data.track.title || '';
+                resultArtist.textContent = data.track.artist || '';
+            }
+            showTrackResult(theme, true, data.message || 'Трек воспроизводится!');
+            input.value = '';
+        } else {
+            if (data.track) {
+                resultArt.src = data.track.albumArt || '';
+                resultTitle.textContent = data.track.title || '';
+                resultArtist.textContent = data.track.artist || '';
+            }
+            showTrackResult(theme, false, data.message || 'Ошибка воспроизведения');
+        }
+    } catch (e) {
+        console.warn('Track request failed:', e);
+        showTrackResult(theme, false, 'Ошибка соединения');
+    } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+        btn.innerHTML = '<i class="fas fa-play"></i><span>Play</span>';
+    }
+}
+
+function showTrackResult(theme, success, message) {
+    const result = $(`#track-result-${theme}`);
+    const resultTitle = $(`#track-result-title-${theme}`);
+    
+    result.className = 'track-request-result ' + (success ? 'success' : 'error');
+    
+    // If it's just a message (no track info), show it in title
+    if (!success || !resultTitle.textContent) {
+        resultTitle.textContent = message;
+        $(`#track-result-artist-${theme}`).textContent = '';
+        $(`#track-result-art-${theme}`).style.display = 'none';
+    } else {
+        $(`#track-result-art-${theme}`).style.display = 'block';
+    }
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        result.className = 'track-request-result';
+        $(`#track-result-art-${theme}`).style.display = 'block';
+    }, 5000);
+}
+
+// Event listeners for track request forms
+function initTrackRequest() {
+    const formDark = $('#track-form-dark');
+    const formReflect = $('#track-form-reflect');
+    const inputDark = $('#track-input-dark');
+    const inputReflect = $('#track-input-reflect');
+    
+    if (formDark) {
+        formDark.addEventListener('submit', (e) => {
+            e.preventDefault();
+            requestTrack('dark');
+        });
+    }
+    
+    if (formReflect) {
+        formReflect.addEventListener('submit', (e) => {
+            e.preventDefault();
+            requestTrack('reflect');
+        });
+    }
+    
+    // Also trigger on Enter key
+    if (inputDark) {
+        inputDark.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                requestTrack('dark');
+            }
+        });
+    }
+    
+    if (inputReflect) {
+        inputReflect.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                requestTrack('reflect');
+            }
+        });
+    }
+}
+
+initTrackRequest();
 
 function initCardEffects() {
     if (isTouch) return;
